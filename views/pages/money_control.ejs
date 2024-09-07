@@ -1,0 +1,103 @@
+<%- include('../common/header') %>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+    <%- include('../common/sidebar') %>
+    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+      <%- include('../common/navbar') %>
+      <!-- / Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper border-top">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="card">
+            <div class="card-header">Add money by uid</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 lg:col-4">
+                  <div class="form-floating form-floating-outline mb-6">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="uid"
+                      min="0"
+                      placeholder="Enter user UID"
+                    />
+                    <label for="uid">User UID</label>
+                  </div>
+                </div>
+                <div class="col-12 lg:col-4">
+                  <div class="form-floating form-floating-outline mb-6">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="amount"
+                      min="0"
+                      placeholder="Enter amount"
+                    />
+                    <label for="amount">Amount</label>
+                  </div>
+                </div>
+                <div class="col-12 lg:col-4">
+                  <input
+                    class="form-control bg-primary text-white"
+                    type="button"
+                    onclick="addMoney()"
+                    value="Deposit"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- / Content -->
+
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+<%- include('../common/footer') %>
+
+<script>
+  const addMoney = () => {
+    let uid = $("#uid").val();
+    let amount = $("#amount").val();
+
+    $.ajax({
+      type: "POST",
+      url: "/admin/money/add",
+      data: {
+        uid: uid,
+        amount: amount,
+      },
+      dataType: "json",
+      success: function (response) {
+        if (response.status) {
+          $("#amount").val('');
+        } else {
+        }
+        $("body").append(`<div class="c-toast">${response.message}</div>`);
+        setTimeout(() => {
+          $("body").find(".c-toast").remove();
+        }, 2000);
+      },
+      error: function (erro) {
+        console.log(erro);
+      },
+    });
+  };
+</script>

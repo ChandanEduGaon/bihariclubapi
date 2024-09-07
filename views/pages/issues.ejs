@@ -1,0 +1,61 @@
+<%- include('../common/header') %>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+    <%- include('../common/sidebar') %>
+    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+      <%- include('../common/navbar') %>
+      <!-- / Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper border-top">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="row row-cols-1 row-cols-md-3 g-6 mb-6">
+            <% data.issues.forEach(e => { %>
+            <div class="col">
+              <div class="card h-100">
+                <img
+                  class="card-img-top"
+                  src="/uploads/<%= e.file %>"
+                  alt="Card image cap"
+                />
+                <div class="card-body">
+                  <h5 class="card-title"><%= e.uid %></h5>
+                  <p class="card-text">
+                    <%= e.des %>
+                  </p>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted"
+                    >Time : <%= new Date(e.created_at).toLocaleString("en-US", {
+                    year: 'numeric', month: 'long', day: 'numeric', hour:
+                    '2-digit', minute: '2-digit', second: '2-digit' }) %></small
+                  > <br>
+                  <small class="text-muted ">Mob. : <%= e.phone %></small>
+                </div>
+              </div>
+            </div>
+            <%});%>
+          </div>
+        </div>
+        <!-- / Content -->
+
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+<%- include('../common/footer') %>

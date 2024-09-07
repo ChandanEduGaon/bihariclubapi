@@ -1,0 +1,539 @@
+<%- include('../common/header') %>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+    <%- include('../common/sidebar') %>
+    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+      <%- include('../common/navbar') %>
+      <!-- / Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper border-top">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="row gy-6 mb-4">
+            <div class="col-12">
+              <div class="card shadow-none">
+                <ul class="nav nav-pills nav-fill" role="tablist">
+                  <li class="nav-item mb-1 mb-sm-0" role="presentation">
+                    <button
+                      type="button"
+                      class="nav-link active waves-effect waves-light"
+                      role="tab"
+                      data-bs-toggle="tab"
+                      aria-selected="true"
+                      onclick="changeTimer(this, '1min')"
+                    >
+                      Wingo 1Min
+                    </button>
+                  </li>
+                  <li class="nav-item mb-1 mb-sm-0" role="presentation">
+                    <button
+                      type="button"
+                      class="nav-link waves-effect waves-light"
+                      role="tab"
+                      data-bs-toggle="tab"
+                      aria-selected="true"
+                      onclick="changeTimer(this, '3min')"
+                    >
+                      Wingo 3Min
+                    </button>
+                  </li>
+                  <li class="nav-item mb-1 mb-sm-0" role="presentation">
+                    <button
+                      type="button"
+                      class="nav-link waves-effect waves-light"
+                      role="tab"
+                      data-bs-toggle="tab"
+                      aria-selected="true"
+                      onclick="changeTimer(this, '5min')"
+                    >
+                      Wingo 5Min
+                    </button>
+                  </li>
+                  <li class="nav-item mb-1 mb-sm-0" role="presentation">
+                    <button
+                      type="button"
+                      class="nav-link waves-effect waves-light"
+                      role="tab"
+                      data-bs-toggle="tab"
+                      aria-selected="true"
+                      onclick="changeTimer(this, '10min')"
+                    >
+                      Wingo 10Min
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row gy-6 mb-4">
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-warning"
+              >
+                <span class="bold text-white">Big</span>
+                <span class="bold text-white bet-big bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="card d-flex flex-col align-items-center p-3 bg-info">
+                <span class="bold text-white">Small</span>
+                <span class="bold text-white bet-small bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-warning"
+              >
+                <span class="bold text-white">Odd</span>
+                <span class="bold text-white bet-odd bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="card d-flex flex-col align-items-center p-3 bg-info">
+                <span class="bold text-white">Even</span>
+                <span class="bold text-white bet-even bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-rv text-white"
+              >
+                <span class="bold bet-amount">0</span>
+                <span class="bold bet-0 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-success text-white"
+              >
+                <span class="bold">1</span>
+                <span class="bold bet-1 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-danger text-white"
+              >
+                <span class="bold">2</span>
+                <span class="bold bet-2 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-success text-white"
+              >
+                <span class="bold">3</span>
+                <span class="bold bet-3 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-danger text-white"
+              >
+                <span class="bold">4</span>
+                <span class="bold bet-4 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-gv text-white"
+              >
+                <span class="bold">5</span>
+                <span class="bold bet-5 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-danger text-white"
+              >
+                <span class="bold">6</span>
+                <span class="bold bet-6 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-success text-white"
+              >
+                <span class="bold">7</span>
+                <span class="bold bet-7 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-danger text-white"
+              >
+                <span class="bold">8</span>
+                <span class="bold bet-8 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-success text-white"
+              >
+                <span class="bold">9</span>
+                <span class="bold bet-9 bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-danger text-white"
+              >
+                <span class="bold">Red</span>
+                <span class="bold bet-red bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-success text-white"
+              >
+                <span class="bold">Green</span>
+                <span class="bold bet-green bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-voilet text-white"
+              >
+                <span class="bold">Voilet</span>
+                <span class="bold bet-voilet bet-amount">0</span>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div
+                class="card d-flex flex-col align-items-center p-3 bg-primary text-white"
+              >
+                <span class="bold">Total</span>
+                <span class="bold bet-amount total">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="row gy-6 mb-4">
+            <div class="col-12">
+              <span
+                >0 (🔴🟣) | 5 (🟢🟣) | 1, 3, 7, 9 (🟢) | 2, 4, 6, 8 (🔴) | 0, 1,
+                2, 3, 4 (Small) | 5, 6, 7, 8, 9 (Big)</span
+              >
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter next result"
+                id="result"
+              />
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <button
+                type="button"
+                class="btn btn-info waves-effect waves-light"
+                style="height: 100%; width: 100%"
+                id="resultBtn"
+              >
+                Enter
+              </button>
+            </div>
+          </div>
+          <div class="row gy-6 mb-4">
+            <div class="col-lg-6 col-md-12">
+              <div class="card shadow-none">
+                <div class="overflow-hidden">
+                  <div class="table-responsive">
+                    <table class="table table-sm">
+                      <thead class="shadow">
+                        <tr>
+                          <th class="text-truncate">Period</th>
+                          <th class="text-truncate">Number</th>
+                          <th class="text-truncate">Big/Small</th>
+                          <th class="text-truncate">Color</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tableData">
+                        <tr>
+                          <td>2024032293353</td>
+                          <td>9</td>
+                          <td>Big</td>
+                          <td>Red</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <div class="card shadow-none">
+                <div class="overflow-hidden">
+                  <div class="table-responsive">
+                    <table class="table table-sm">
+                      <thead class="shadow">
+                        <tr>
+                          <th class="text-truncate">Uid</th>
+                          <th class="text-truncate">Bet</th>
+                          <th class="text-truncate">Amount</th>
+                          <th class="text-truncate">Time</th>
+                        </tr>
+                      </thead>
+                      <tbody id="usersDataTable">
+                        <tr>
+                          <td>79918751</td>
+                          <td>4</td>
+                          <td>20000</td>
+                          <td>12:00 AM</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- / Content -->
+
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+<%- include('../common/footer') %>
+<script>
+  let realTime = true;
+  const formatTime = (timer) => {
+    const minutes = String(Math.floor(timer / 60)).padStart(2, "0");
+    const seconds = String(timer % 60).padStart(2, "0");
+
+    if (true) {
+      if (
+        minutes.charAt(1) === "0" &&
+        seconds.charAt(0) === "0" &&
+        Number(seconds.charAt(1)) < 6
+      ) {
+        $(".bet-section-model").addClass("show").removeClass("hide");
+        if (Number(seconds.charAt(1)) < 6 && Number(seconds.charAt(1)) > 1) {
+        }
+        if (Number(seconds.charAt(1)) === 1) {
+        }
+      }
+      if (seconds.charAt(0) === "0" && Number(seconds.charAt(1)) === 0) {
+        $(".bet-section-model").addClass("hide").removeClass("show");
+      }
+    }
+
+    return { minutes, seconds };
+  };
+
+  const updateCounter = (timer, id) => {
+    const { minutes, seconds } = formatTime(timer);
+
+    const counterElements = $(`#${id} .counter-num`);
+    counterElements.eq(0).text(minutes.charAt(0));
+    counterElements.eq(1).text(minutes.charAt(1));
+    counterElements.eq(3).text(seconds.charAt(0));
+    counterElements.eq(4).text(seconds.charAt(1));
+  };
+
+  const loadList = (timer) => {
+    $.ajax({
+      type: "GET",
+      url: "/admin/wingolist",
+      data: {
+        type: timer,
+        game: "wingo",
+      },
+      dataType: "json",
+      success: function (response) {
+        let html = "";
+        response.data.forEach((e, i) => {
+          html += `<tr>
+                      <td>${e.period_id}</td>
+                      <td><span  class="${e.color_result} ${
+            e.num_result == 0 ? "txt-rv" : ""
+          } ${e.num_result == 5 ? "txt-gv" : ""} bold">${
+            e.num_result
+          }</span></td>
+                      <td>${e.size_result}</td>
+                      <td><span class="badge bg-${e.color_result} ${
+            e.num_result == 0 ? "bg-rv" : ""
+          } ${e.num_result == 5 ? "bg-gv" : ""}">${e.color_result}</span></td>
+                    </tr>`;
+          if (i === 0) {
+            $(".p_id").text(parseInt(e.period_id) + 1);
+          }
+        });
+        $("#tableData").html(html);
+      },
+    });
+  };
+
+  const loadBetList = (timer) => {
+    $.ajax({
+      type: "GET",
+      url: "/admin/getBetList",
+      data: {
+        type: timer,
+        game: "wingo",
+      },
+      dataType: "json",
+      success: function (response) {
+        let html = "";
+        response.data.forEach((e, i) => {
+          html += `<tr>
+                      <td>${e.uid}</td>
+                      <td>${e.bet}</td>
+                      <td>${formatMoney(e.purchase_amount)}</td>
+                      <td>${formatDate("H:m A", e.created_at)}</td>
+                    </tr>`;
+        });
+        $("#usersDataTable").html(html);
+      },
+    });
+  };
+
+  const getBetAmount = (timer) => {
+    $(".bet-amount").text("0");
+    let total_amount = 0;
+    $.ajax({
+      type: "GET",
+      url: "/admin/getBetAmount",
+      data: {
+        type: timer,
+        game: "wingo",
+      },
+      dataType: "json",
+      success: function (response) {
+        response.data.forEach((e, i) => {
+          $(".bet-" + e.bet).text(formatMoney(e.total_amount));
+          total_amount += e.total_amount;
+        });
+        $(".bet-amount.total").text(formatMoney(total_amount));
+      },
+    });
+  };
+  const setResult = (timer, result) => {
+    $.ajax({
+      type: "GET",
+      url: "/admin/setResult",
+      data: {
+        type: timer,
+        game: "wingo",
+        result: result,
+      },
+      dataType: "json",
+      success: function (response) {
+        if (response.status) {
+          $("#result")
+            .css("color", "white")
+            .css("border-color", "#56ca00")
+            .css("background-color", "#56ca00");
+          $("#result").attr(
+            "placeholder",
+            `Next result set to ${result} successfully!`
+          );
+          $("#result").val(`Next result set to ${result} successfully!`);
+          $("#result").attr(`readonly`, true);
+        }
+        setTimeout(() => {
+          $("#result")
+            .css("color", "")
+            .css("border-color", "")
+            .css("background-color", "");
+          $("#result").val("");
+          $("#result").attr(`readonly`, false);
+        }, 3000);
+      },
+    });
+  };
+
+  var timertype = "1min";
+
+  const changeTimer = (obj, timer) => {
+    timertype = timer;
+    loadList(timer);
+    getBetAmount(timer);
+    loadBetList(timer);
+  };
+  socket.on("timer", (data) => {
+    if (realTime) {
+      loadBetList(timertype);
+      getBetAmount(timertype);
+    }
+    switch (timertype) {
+      case "1min":
+        updateCounter(data.timer1, "timer");
+        if (data.timer1 == 59) {
+          loadList(timertype);
+        }
+        break;
+      case "3min":
+        updateCounter(data.timer3, "timer");
+        if (data.timer3 == 179) {
+          loadList(timertype);
+        }
+        break;
+      case "5min":
+        updateCounter(data.timer5, "timer");
+        if (data.timer5 == 299) {
+          loadList(timertype);
+        }
+        break;
+      case "10min":
+        updateCounter(data.timer10, "timer");
+        if (data.timer10 == 599) {
+          loadList(timertype);
+        }
+        break;
+
+      default:
+        updateCounter(data.timer1, "timer");
+        break;
+    }
+  });
+  $(document).ready(function () {
+    $(".timer-container ").animate(
+      {
+        right: "-125px",
+      },
+      200
+    );
+    changeTimer(null, "1min");
+
+    $("#resultBtn").click(function (e) {
+      e.preventDefault();
+      let result = $("#result").val();
+
+      let numericResult = parseFloat(result);
+
+      if (isNaN(numericResult) || numericResult > 9) {
+        $("#result").val("");
+        $("#result")
+          .css("color", "white")
+          .css("border-color", "#ff4c51")
+          .css("background-color", "#ff4c51");
+        $("#result").attr("placeholder", `Enter valid a result!`);
+        return false;
+      } else {
+        setResult(timertype, numericResult);
+      }
+    });
+  });
+  window.onload = function () {
+    setTimeout(() => {
+      loadBetList(timertype);
+      getBetAmount(timertype);
+    }, 1000);
+  };
+</script>

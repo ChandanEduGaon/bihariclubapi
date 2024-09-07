@@ -1,0 +1,93 @@
+<div class="timer-container">
+    <div class="p_id">389279472379</div>
+    <div class="timer" id="timer">
+        <span class="counter-num">0</span>
+        <span class="counter-num">0</span>
+        <span class="counter-num x">:</span>
+        <span class="counter-num">0</span>
+        <span class="counter-num">0</span>
+    </div>
+</div>
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script src="../../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../../assets/vendor/libs/popper/popper.js"></script>
+<script src="../../assets/vendor/js/bootstrap.js"></script>
+<script src="../../assets/vendor/libs/node-waves/node-waves.js"></script>
+<script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="../../assets/vendor/js/menu.js"></script>
+
+
+
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+<!-- Main JS -->
+<script src="../../assets/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="../../assets/js/dashboards-analytics.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    const formatMoney = (
+        amount,
+        currencySymbol = "₹",
+        decimalPlaces = 2
+    ) => {
+        // Convert amount to a number (parseFloat works for strings and numbers)
+        const numberAmount = parseFloat(amount);
+
+        if (isNaN(numberAmount)) return `${currencySymbol}0.00`;
+
+        // Convert to fixed decimal places
+        let formattedAmount = numberAmount.toFixed(decimalPlaces);
+
+        // Add thousands separator
+        let parts = formattedAmount.split(".");
+        let integerPart = parts[0];
+        let decimalPart = parts[1];
+
+        // Use regex to add commas for thousands
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        // Construct the formatted amount
+        return `${currencySymbol}${integerPart}.${decimalPart}`;
+    };
+    const formatDate = (format, date) => {
+        const d = new Date(date);
+        const map = {
+            d: d.getDate().toString().padStart(2, "0"),
+            D: d.getDate(),
+            m: (d.getMonth() + 1).toString().padStart(2, "0"),
+            M: d.getMonth() + 1,
+            y: d.getFullYear().toString().slice(-2),
+            Y: d.getFullYear(),
+            H: d.getHours().toString().padStart(2, "0"),
+            h: (d.getHours() % 12 || 12).toString().padStart(2, "0"),
+            M: d.getMinutes().toString().padStart(2, "0"),
+            S: d.getSeconds().toString().padStart(2, "0"),
+            A: d.getHours() >= 12 ? "PM" : "AM",
+        };
+
+        return format.replace(/d|D|m|M|y|Y|H|h|M|S|A/g, (matched) => map[matched]);
+    };
+    
+    $.ajax({
+      type: "GET",
+      url: "/admin/getAdminDetail",
+      dataType: "json",
+      success: function (response) {
+        if (response.status) {
+          $('.admin-name').text(response.data.name)
+        }
+      },
+    });
+
+</script>
+</body>
+
+</html>

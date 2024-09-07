@@ -1,0 +1,220 @@
+<%- include('../common/header') %>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+    <%- include('../common/sidebar') %>
+    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+      <%- include('../common/navbar') %>
+      <!-- / Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper border-top">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="card mb-4">
+            <div class="card-header">Generate Gift Code</div>
+            <div class="card-body">
+              <div class="row gy-6">
+                <div class="col-3">
+                  <div class="form-floating form-floating-outline">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="amount"
+                      placeholder="Enter amount"
+                      max="10000"
+                      min="1"
+                    />
+                    <label for="amount">Amount</label>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-floating form-floating-outline">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="limit"
+                      placeholder="Enter limit"
+                      max="100"
+                      min="1"
+                    />
+                    <label for="limit">Limit</label>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-floating form-floating-outline">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="code"
+                      placeholder="Enter code e.g. name123"
+                    />
+                    <label for="code">Code</label>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <button
+                    class="btn btn-info"
+                    style="height: 100%"
+                    onclick="setGiftCode()"
+                  >
+                    Generate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row gy-6">
+            <!-- Data Tables -->
+            <div class="col-12">
+              <!-- Invoice table -->
+              <div class="card mb-4">
+                <h5 class="card-header">Gift Codes</h5>
+                <div class="overflow-scroll" style="max-height: 400px">
+                  <div class="table-responsive">
+                    <table class="table table-sm">
+                      <thead class="sticky-top">
+                        <tr>
+                          <th class="text-truncate">Sr. No.</th>
+                          <th class="text-truncate">Code</th>
+                          <th class="text-truncate">Amount</th>
+                          <th class="text-truncate">Limit</th>
+                          <th class="text-truncate">Status</th>
+                          <th class="text-truncate">Time</th>
+                          <th class="text-truncate">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="codeDataTable"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- /Invoice table -->
+            </div>
+            <!--/ Data Tables -->
+          </div>
+        </div>
+        <!-- / Content -->
+
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+<%- include('../common/footer') %>
+
+<script>
+  const loadList = (timer) => {
+    $.ajax({
+      type: "GET",
+      url: "/admin/gift/code/list",
+      data: {
+        type: timer,
+        game: "wingo",
+      },
+      dataType: "json",
+      success: function (response) {
+        let html = "";
+        response.data.forEach((e, i) => {
+          html += `<tr>
+                      <td>${i + 1}</td>
+                      <td>${e.code}</td>
+                      <td>${formatMoney(e.amount)}</td>
+                      <td>${e.redeem_limit}</td>
+                      <td>
+                          <span class="badge bg-${
+                            e.active == "1" ? "success" : "secondary"
+                          }">${e.active == "1" ? "Active" : "Expired"}</span>
+                      </td>
+                      <td>${formatDate("Y-m-d H:m A", e.created_at)}</td>
+                      <td><span
+                              class="badge bg-danger pointer"
+                              onclick="deleteCode('${e.id}')"
+                              ><i class="ri-delete-bin-line"></i
+                            ></span></td>
+                    </tr>`;
+        });
+        $("#codeDataTable").html(html);
+      },
+    });
+  };
+
+  const deleteCode = (id) => {
+    $.ajax({
+      type: "GET",
+      url: "/admin/gift/code/delete",
+      data: {
+        id: id,
+      },
+      dataType: "json",
+      success: function (response) {
+        if (response.status) {
+          loadList();
+        }
+      },
+    });
+  };
+
+  const setGiftCode = () => {
+    let amount = $("#amount").val();
+    let limit = $("#limit").val();
+    let code = $("#code").val();
+
+    $("input").removeClass("border-danger");
+
+    // Validation
+    if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+      $("#amount").addClass("border-danger");
+      return;
+    }
+
+    if (!limit || isNaN(limit) || parseInt(limit) <= 0) {
+      $("#limit").addClass("border-danger");
+      return;
+    }
+
+    if (!code || code.trim() === "") {
+      $("#code").addClass("border-danger");
+      return;
+    }
+
+    // Proceed with AJAX request if validation passes
+    $.ajax({
+      type: "POST",
+      url: "/admin/gift/code/create",
+      data: {
+        amount: parseFloat(amount),
+        redeem_limit: parseInt(limit),
+        gift_code: code.trim(),
+      },
+      dataType: "json",
+      success: function (response) {
+        if (response.status) {
+          loadList();
+          $("input").val("");
+        }
+      },
+    });
+  };
+
+  $(document).ready(function () {
+    loadList();
+
+    $('input').on('blur', function () {
+      $("input").removeClass("border-danger");
+    });
+  });
+</script>

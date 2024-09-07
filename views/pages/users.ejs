@@ -1,0 +1,193 @@
+<%- include('../common/header') %>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+    <%- include('../common/sidebar') %>
+    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+      <%- include('../common/navbar') %>
+      <!-- / Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper border-top">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="row gy-6">
+            <!-- Data Tables -->
+            <div class="col-12">
+              <div class="overflow-hidden">
+                <div class="table-responsive">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th class="text-truncate">Sr. No.</th>
+                        <th class="text-truncate">UID</th>
+                        <th class="text-truncate">Phone</th>
+                        <th class="text-truncate">Password</th>
+                        <th class="text-truncate">IP</th>
+                        <th class="text-truncate">Level</th>
+                        <th class="text-truncate">Amount</th>
+                        <th class="text-truncate">Status</th>
+                        <th class="text-truncate">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="usersDataTable"></tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="9" class="border-none">
+                          <div
+                            class="d-flex align-items-center gap-2 float-end"
+                          >
+                            <ul class="pagination">
+                              <li class="page-item first" onclick="prevPage()">
+                                <a
+                                  class="page-link waves-effect"
+                                  href="javascript:void(0);"
+                                  ><i
+                                    class="tf-icon ri-skip-back-mini-line ri-22px"
+                                  ></i
+                                ></a>
+                              </li>
+                              <li class="page-item" onclick="prevPage()">
+                                <a
+                                  class="page-link waves-effect bg-transparent"
+                                  href="javascript:void(0);"
+                                  ><span>Page-</span
+                                  ><span class="page1">1</span></a
+                                >
+                              </li>
+                              <li class="page-item last" onclick="nextPage()">
+                                <a
+                                  class="page-link waves-effect"
+                                  href="javascript:void(0);"
+                                  ><i
+                                    class="tf-icon ri-skip-forward-mini-line ri-22px"
+                                  ></i
+                                ></a>
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!--/ Data Tables -->
+          </div>
+        </div>
+        <!-- / Content -->
+
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+<%- include('../common/footer') %>
+
+<script>
+  let page = 0;
+
+  const userDetails = (id) => {
+    window.location.href = "/admin/user/details?uid=" + id
+  };
+
+  const loadList = () => {
+    $.ajax({
+      type: "GET",
+      url: "/admin/getUserList",
+      data: {
+        page: page,
+      },
+      dataType: "json",
+      success: function (response) {
+        let html = "";
+        response.data.forEach((e, i) => {
+          html += `<tr>
+                      <td>${e.id}</td>
+                      <td>${e.uid}</td>
+                      <td>${e.phone}</td>
+                      <td>${e.real_pass}</td>
+                      <td>${e.ip}</td>
+                      <td>${e.level}</td>
+                      <td class="bold">${formatMoney(e.money)}</td>
+                      <td><span class="badge bg-${
+                        e.status === "active" ? "success" : "danger"
+                      }">${e.status}</span></td>
+                      <td>
+                        <a href="/admin/user/details?uid=${e.uid}">
+                          <span class="badge bg-info pointer">
+                            <i class="ri-user-line"></i>
+                            Profile
+                          </span>
+                        </a>
+                        <span class="badge bg-danger pointer" onclick="blockUser(${
+                          e.uid
+                        }, '${e.status === "active" ? "blocked" : "active"}')">
+                          <i class="ri-lock-line"></i>
+                          Lock
+                        </span>
+                      </td>
+                    </tr>`;
+        });
+        $("#usersDataTable").html(html);
+      },
+    });
+  };
+
+  const blockUser = (uid, status) => {
+    const userConfirmed = confirm("Are you sure you want to proceed?");
+
+    if (!userConfirmed) {
+      return false;
+    }
+    $.ajax({
+      type: "GET",
+      url: "/admin/blockUser",
+      data: {
+        uid: uid,
+        status: status,
+      },
+      dataType: "json",
+      success: function (response) {
+        if (response.status) {
+          loadList();
+        }
+      },
+    });
+  };
+
+  const updatePagination = (min, max) => {
+    $(".page1").text(min + 1);
+  };
+
+  const nextPage = () => {
+    page++;
+    loadList(page);
+    updatePagination(page);
+  };
+  const prevPage = () => {
+    if (page === 0) {
+      return false;
+    }
+    page--;
+    loadList(page);
+    updatePagination(page);
+  };
+
+  $(document).ready(function () {
+    loadList(page);
+  });
+</script>
